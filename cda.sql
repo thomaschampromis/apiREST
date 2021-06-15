@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `email`, `password`, `birthDate`) VALUES
 (1, 'mathias.dgs@gmail.com', '70f1a7bce30135255f3ca7bd9ea0bb220171faf6', NULL),
-(2, 'mathias.danglades@gmail.com', '16c3feadce3d442151922724ac0faba4632f3481', NULL);
+(2, 'thomas.champromis@gmail.com', '16c3feadce3d442151922724ac0faba4632f3481', NULL);
 
 --
 -- Contraintes pour les tables déchargées
