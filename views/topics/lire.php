@@ -9,46 +9,45 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // On vérifie que la méthode utilisée est correcte
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // On inclut les fichiers de configuration et d'accès aux données
-    include_once '../config/Database.php';
-    include_once '../models/Produits.php';
+    include_once '../../config/Database.php';
+    include_once '../../models/Topic.php';
+    include_once '../../repository/TopicRepo.php';
 
     // On instancie la base de données
     $database = new Database();
     $db = $database->getConnection();
 
     // On instancie les produits
-    $produit = new Produits($db);
+    $topic = new Topic();
+    $topicRepo = new TopicRepo($db);
 
     // On récupère les données
-    $stmt = $produit->lire();
+    $stmt = $topicRepo->lire();
 
     // On vérifie si on a au moins 1 produit
     if($stmt->rowCount() > 0){
         // On initialise un tableau associatif
-        $tableauProduits = [];
-        $tableauProduits['produits'] = [];
+        $tableauTopics = [];
+        $tableauTopics['topics'] = [];
 
-        // On parcourt les produits
+        // On parcourt les Topics
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
 
             $prod = [
                 "id" => $id,
-                "nom" => $nom,
-                "description" => $description,
-                "prix" => $prix,
-                "categories_id" => $categories_id,
-                "categories_nom" => $categories_nom
+                "title" => $title,
+            
             ];
 
-            $tableauProduits['produits'][] = $prod;
+            $tableauTopics['topics'][] = $prod;
         }
 
         // On envoie le code réponse 200 OK
         http_response_code(200);
 
         // On encode en json et on envoie
-        echo json_encode($tableauProduits);
+        echo json_encode($tableauTopics);
     }
 
 }else{

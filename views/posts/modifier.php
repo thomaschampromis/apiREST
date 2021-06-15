@@ -9,29 +9,34 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // On vérifie la méthode
 if($_SERVER['REQUEST_METHOD'] == 'PUT'){
     // On inclut les fichiers de configuration et d'accès aux données
-    include_once '../config/Database.php';
-    include_once '../models/Produits.php';
+    include_once '../../config/Database.php';
+    include_once '../../models/Post.php';
+    include_once '../../repository/PostRepo.php';
 
     // On instancie la base de données
     $database = new Database();
     $db = $database->getConnection();
 
     // On instancie les produits
-    $produit = new Produits($db);
+    $post = new Post();
+    $postRepo = new PostRepo($db);
 
     // On récupère les informations envoyées
     $donnees = json_decode(file_get_contents("php://input"));
+
+
     
-    if(!empty($donnees->id) && !empty($donnees->nom) && !empty($donnees->description) && !empty($donnees->prix) && !empty($donnees->categories_id)){
+    if(!empty($donnees->id) && !empty($donnees->postDate) && !empty($donnees->content)){
         // Ici on a reçu les données
         // On hydrate notre objet
-        $produit->id = $donnees->id;
-        $produit->nom = $donnees->nom;
-        $produit->description = $donnees->description;
-        $produit->prix = $donnees->prix;
-        $produit->categories_id = $donnees->categories_id;
+        
+        $post->id = $donnees->id;
+        $post->postDate = $donnees->postDate;
+        $post->content = $donnees->content;
+    
 
-        if($produit->modifier()){
+        if($postRepo->modifier($post)){
+            
             // Ici la modification a fonctionné
             // On envoie un code 200
             http_response_code(200);

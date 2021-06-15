@@ -2,7 +2,7 @@
 class Database{
     // Connexion à la base de données
     private $host = "localhost";
-    private $db_name = "api_rest";
+    private $db_name = "CDA_project";
     private $username = "root";
     private $password = "";
     public $connexion;
